@@ -86,5 +86,32 @@ namespace API_Parameters_Demo.Controllers
 
             return Ok(singleProduct);
         }
+
+
+
+        // Following API endpoint/method binds/receive different ways of params mix ways.
+        [Route("GetProductByCombinedParams/{id}")]
+        [HttpGet]
+        public IActionResult GetProductByCombinedParams([FromRoute] int id, [FromQuery] string title, [FromHeader] string token)
+        {
+            var products = new List<Product> {
+                new() { ID = 1, Title = "Laptop", Price = 100.32m, Token="1T55-OI-8858-A"},
+                new() { ID = 2, Title = "Perfume", Price = 200m, Token="1F00-OI-8858-R"},
+                new() { ID = 3, Title = "Mobile", Price = 5000m, Token="1C96-OI-8896-Z"},
+                new() { ID = 4, Title = "Game", Price = 85.00m, Token="1X012-OI-0958-T"}
+            };
+
+            var singleProduct = products.FirstOrDefault(p => p.ID == id && p.Title == title && p.Token == token);
+
+            if (singleProduct == null)
+                return NotFound(new { Message = $"Product with ID: {id} not found" });
+
+            return Ok(singleProduct);
+        }
+
+
+
+
+
     }
 }

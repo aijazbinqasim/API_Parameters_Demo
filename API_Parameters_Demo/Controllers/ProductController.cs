@@ -112,6 +112,48 @@ namespace API_Parameters_Demo.Controllers
 
 
 
+        // Following API endpoint/method binds/receive params from Request Body in Http GET.
+        [Route("GetProductByRequestBody")]
+        [HttpGet]
+        public IActionResult GetProductByRequestBody([FromBody] Product p, [FromQuery] string title)
+        {
+            if (title == "Iron")
+                return Ok(p);
 
+            return NotFound(new { message = "Product Not Found!" });           
+        }
+
+
+
+
+        // Following API endpoint/method binds/receive params from Request Body in Http POST.
+        [Route("SaveProduct")]
+        [HttpPost]
+        public IActionResult SaveProduct([FromBody] Product product)
+        {
+            return Created(string.Empty, product);
+        }
+
+
+
+        // Following API endpoint/method binds/receive params from FromForm in Http POST.
+
+        [Route("SaveUser")]
+        [HttpPost]
+        public IActionResult SaveUser([FromForm] int id, [FromForm] string name, [FromForm] string address)
+        {
+            //return Created(string.Empty, new { ID = id, Name = name, Address = address });
+
+            return Created(string.Empty, new User { ID = id, Name = name, Address = address });
+        }
+
+    }
+
+    // Following User is called Model/Template/Blue Print/Idea/Complex type or User defined new type. That is class!!
+    public class User
+    {
+        public int ID { get; set; }
+        public string? Name { get; set; }
+        public string? Address { get; set; }
     }
 }

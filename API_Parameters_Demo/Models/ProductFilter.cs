@@ -2,7 +2,7 @@
 {
     public class ProductFilter
     {
-        public int ByID { get; set; }
+        public int? ByID { get; set; }
         public string? ByTitle { get; set; }
     }
 }

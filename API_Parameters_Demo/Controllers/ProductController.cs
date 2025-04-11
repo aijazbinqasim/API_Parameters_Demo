@@ -11,20 +11,29 @@ namespace API_Parameters_Demo.Controllers
         // Following API endpoint/method binds/receive params (primitive types) from  Query string.
         [Route("GetProductByQueryString")]
         [HttpGet]
-        public IActionResult GetProductByQueryString([FromQuery(Name = "id")] int? pid,
-            [FromQuery(Name = "title")] string pname,
-            [FromQuery(Name = "amount")] decimal price)
+        public IActionResult GetProductByQueryString([FromQuery(Name = "id")] int pid, 
+            [FromQuery(Name = "title")] string pname, 
+            [FromQuery(Name = "price")] decimal price)
         {
-            return Ok(new { ID = pid, name = pname, productPrice = price });
+            // return Ok(new { ID = pid, name = pname, productPrice = price });
+
+            var product = new Product
+            {
+                ID = pid,
+                Title = pname,
+                Price = price
+            };
+
+            return Ok(product);
         }
 
 
 
 
         // Following API endpoint/method binds/receive params from Route.
-        [Route("GetProductById/{pid}/{ptitle}")]
+        [Route("GetProductById/{pid}/{ptitle?}")]
         [HttpGet]
-        public IActionResult GetProductById([FromRoute(Name = "pid")] int id, [FromRoute(Name = "ptitle")] string title)
+        public IActionResult GetProductById([FromRoute(Name = "pid")] int id, [FromRoute(Name = "ptitle")] string? title)
         {
             var products = new List<Product> {
                 new() { ID = 1, Title = "Laptop", Price = 100.32m},
@@ -70,7 +79,7 @@ namespace API_Parameters_Demo.Controllers
         // Following API endpoint/method binds/receive params from http headers format.
         [Route("GetProductByHeder")]
         [HttpGet]
-        public IActionResult GetProductByHeder([FromHeader] int id, [FromHeader] string title)
+        public IActionResult GetProductByHeder([FromHeader] int? id, [FromHeader] string? title)
         {
             var products = new List<Product> {
                 new() { ID = 1, Title = "Laptop", Price = 100.32m},
